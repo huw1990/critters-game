@@ -87,14 +87,14 @@ class Critter extends MoveableGameObject {
             //this.moveTowardsNewestFood();
             //this.moveTowardsOldestFood();
           }
-          if (this.getXVelo() !== 0 || this.getYVelo() !== 0) {
-            this.anims.play('critter-moving', true);
-          }
+          // if (this.getXVelo() !== 0 || this.getYVelo() !== 0) {
+          //   this.anims.play('critter-moving', true);
+          // }
         } else {
           this.setXVelo(0);
           this.setYVelo(0);
-          this.anims.stop(null, true);
-          this.setFrame(0);
+          // this.anims.stop(null, true);
+          // this.setFrame(0);
           if (now > (this.lastTimeSettingAngle + this.gameConfig.critterIdleAngleChangeTime)) {
             var randomDegrees = Phaser.Math.Between(0, 360);
             this.setAngle(randomDegrees);

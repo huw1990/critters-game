@@ -10,6 +10,9 @@ class BaseScene extends Phaser.Scene {
   }
 
   create() {
+    const bg = this.add.image(0, 0, 'grass').setOrigin(0);
+    bg.displayWidth = this.state.game.config.width;
+    bg.displayHeight = this.state.game.config.height;
   }
 }
 

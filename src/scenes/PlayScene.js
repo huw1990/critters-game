@@ -14,9 +14,7 @@ class PlayScene extends BaseScene {
   }
   
   create(){
-    console.log("playGame create()");
-    console.log("width=" + this.state.game.config.width);
-    console.log("height=" + this.state.game.config.height);
+    super.create();
 
     //Clear any maps of state we have, in case this is not the first time we're creating this scene
     this.state.critters.length = 0;
@@ -31,20 +29,11 @@ class PlayScene extends BaseScene {
 
     //Create the top bar, showing the score, etc.
     const gapAroundMenuButton = sizeOfTopBar * 0.02;
-    const menuButtonSize = sizeOfTopBar - (gapAroundMenuButton * 2);
-    var menuButton = this.add.sprite(this.state.game.config.width - (menuButtonSize / 2) - (gapAroundMenuButton * 3), ((sizeOfTopBar / 2) + (gapBetweenWallAndEdge / 2)), 'menubutton');
-    menuButton.displayWidth = menuButtonSize;
-    menuButton.scaleY = menuButton.scaleX;
-    menuButton.setInteractive({useHandCursor: true});
-    menuButton.on("pointerdown", function(){
-      console.log("launching in game menu");
-      this.scene.pause();
-      this.scene.launch("InGameMenuScene", this);
-    }, this);
     var scoreBox = this.add.sprite(this.state.game.config.width / 2, ((sizeOfTopBar / 2) + (gapBetweenWallAndEdge / 2)), 'scorebox');
-    scoreBox.displayHeight = menuButtonSize;
-    scoreBox.scaleX = scoreBox.scaleY;
-    const fontSize = menuButtonSize * 0.6;
+    const scoreButtonSize = sizeOfTopBar - (gapAroundMenuButton * 2);
+    scoreBox.displayHeight = scoreButtonSize;
+    scoreBox.displayWidth = this.state.game.config.width /3;
+    const fontSize = scoreButtonSize * 0.6;
     console.log("font size=" + fontSize);
     this.scoreText = this.add.text(this.state.game.config.width / 2, ((sizeOfTopBar / 2) + (gapBetweenWallAndEdge / 2)), "0", {fontSize: fontSize + 'px', fill: '#000', fontFamily: 'Verdana, Geneva, sans-serif'});
     this.scoreText.setOrigin(0.5);
@@ -59,19 +48,19 @@ class PlayScene extends BaseScene {
 
     //Add the walls as just images, not as physics objects. We'll set the world bounds to be the edges of these walls
     //Left wall
-    var leftWall = this.add.image((wallDepth / 2) + gapBetweenWallAndEdge, (this.state.game.config.height / 2) + (sizeOfTopBar / 2), 'wallheight');
+    var leftWall = this.add.image((wallDepth / 2) + gapBetweenWallAndEdge, (this.state.game.config.height / 2) + (sizeOfTopBar / 2), 'wall');
     leftWall.displayWidth = wallDepth;
     leftWall.displayHeight = (this.state.game.config.height - sizeOfTopBar) - (((wallDepth / 2) + gapBetweenWallAndEdge) * 2);
     //Top wall
-    var topWall = this.add.image(this.state.game.config.width /2, sizeOfTopBar + (wallDepth / 2) + gapBetweenWallAndEdge, 'wallwidth');
+    var topWall = this.add.image(this.state.game.config.width /2, sizeOfTopBar + (wallDepth / 2) + gapBetweenWallAndEdge, 'wall');
     topWall.displayWidth = this.state.game.config.width - (gapBetweenWallAndEdge * 2);
     topWall.displayHeight = wallDepth;
     //Right wall
-    var rightWall = this.add.image(this.state.game.config.width - ((wallDepth / 2) + gapBetweenWallAndEdge), (this.state.game.config.height / 2) + (sizeOfTopBar / 2), 'wallheight');
+    var rightWall = this.add.image(this.state.game.config.width - ((wallDepth / 2) + gapBetweenWallAndEdge), (this.state.game.config.height / 2) + (sizeOfTopBar / 2), 'wall');
     rightWall.displayWidth = wallDepth;
     rightWall.displayHeight = (this.state.game.config.height - sizeOfTopBar) - (((wallDepth / 2) + gapBetweenWallAndEdge) * 2);
     //Bottom wall
-    var bottomWall = this.add.image(this.state.game.config.width /2, this.state.game.config.height - ((wallDepth / 2) + gapBetweenWallAndEdge), 'wallwidth');
+    var bottomWall = this.add.image(this.state.game.config.width /2, this.state.game.config.height - ((wallDepth / 2) + gapBetweenWallAndEdge), 'wall');
     bottomWall.displayWidth = this.state.game.config.width - (gapBetweenWallAndEdge * 2);
     bottomWall.displayHeight = wallDepth;
 
@@ -169,22 +158,6 @@ class PlayScene extends BaseScene {
       this.scoreText.text = this.state.score.toString();
       this.state.lastTimeScoreUpdated = now;
     }
-  }
-
-  resumeGameFromMenu() {
-    this.scene.stop("InGameMenuScene");
-      console.log("resume game, resuming scene");
-      this.scene.resume("PlayScene");
-  }
-
-  startNewGameFromMenu() {
-    this.scene.stop("InGameMenuScene");
-    this.scene.start("PlayScene");
-  }
-
-  loadMainMenu() {
-    this.scene.stop("InGameMenuScene");
-    this.scene.start("MainMenuScene");
   }
     
   /* Checks whether the provided coordinates are within the bounds of the walls of the game. Typically used for placing

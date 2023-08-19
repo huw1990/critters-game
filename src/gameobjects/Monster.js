@@ -23,9 +23,9 @@ class Monster extends MoveableGameObject {
             this.moveTowardsClosestCritter();
             this.lastTimeCheckingCritters = now;
           }
-          if (this.xVelo !== 0 || this.yVelo !== 0) {
-            this.anims.play('monster-moving', true);
-          }
+          // if (this.xVelo !== 0 || this.yVelo !== 0) {
+          //   this.anims.play('monster-moving', true);
+          // }
         } else {
           //TODO: game should be over now
         }
@@ -64,8 +64,8 @@ class Monster extends MoveableGameObject {
       console.log("eat critter");
       this.targetEaten();
       this.currentlyEating = true;
-      this.anims.stop(null, true);
-      this.setFrame(6);
+      // this.anims.stop(null, true);
+      // this.setFrame(6);
       critter.eatenByMonster(scene, this, physicsWorld);
     }
   
