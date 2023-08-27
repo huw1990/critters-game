@@ -13,6 +13,8 @@ var gameOptions = {
   critters: 2,
   critterSpeed: 4,
   monsterSpeed: 2,
+  foodEatSpeedDecrease: 0.95,
+  foodEatSizeIncrease: 1.05,
   critterSizePixels: 130,
   aspectRatio: 16/9,
   critterIdleAngleChangeTime: 500,

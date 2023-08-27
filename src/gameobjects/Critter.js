@@ -13,6 +13,8 @@ class Critter extends MoveableGameObject {
       this.lastTimeSettingAngle = 0;
       this.currentlyEating = false;
       this.monster = null;
+      this.amountOfFoodEaten = 0;
+      this.critterNumber = scene.add.text(x, y, this.amountOfFoodEaten, {font: `${this.gameState.game.config.width / 40}px Arial`, fill: "#ffffff"}).setOrigin(0.5);
     }
   
     eatenByMonster(scene, monster, physicsWorld) {
@@ -42,6 +44,14 @@ class Critter extends MoveableGameObject {
     eatFood(scene, food) {
       this.targetEaten();
       this.currentlyEating = true;
+
+      // For each piece of food eaten, update the text, then increase size and decrease speed
+      this.amountOfFoodEaten++;
+      this.critterNumber.setText(this.amountOfFoodEaten);
+      this.displayHeight = this.displayHeight * this.gameConfig.foodEatSizeIncrease;
+      this.displayWidth = this.displayWidth * this.gameConfig.foodEatSizeIncrease;
+      this.speed = this.speed * this.gameConfig.foodEatSpeedDecrease;
+
       console.log("critter " + this.id + " eaten some food");
       scene.tweens.add({
           targets: this,
@@ -75,6 +85,10 @@ class Critter extends MoveableGameObject {
     }
   
     update(scene) {
+      // Update the score text (which is a separate component) to always be above the critter
+      this.critterNumber.x = this.x;
+      this.critterNumber.y = this.y;
+
       if (this.currentlyEating) {
           this.setXVelo(0);
           this.setYVelo(0);
@@ -137,6 +151,10 @@ class Critter extends MoveableGameObject {
   
     moveTowardsNewestFood() {
       this.moveTowardsFood(this.gameState.allFood[this.gameState.allFood.length - 1]);
+    }
+
+    getAmountOfFoodEaten() {
+      return this.amountOfFoodEaten;
     }
   }
   

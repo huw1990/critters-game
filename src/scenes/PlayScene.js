@@ -155,18 +155,20 @@ class PlayScene extends BaseScene {
       console.log("GAME OVER");
       this.scene.pause();
     }
+    let amountOfFoodEaten = 0;
     for (var i = 0; i < this.state.critters.length; i++) {
       var critter = this.state.critters[i];
       if (typeof critter !== 'undefined') {
         //console.log("updating critter=" + critter);
         critter.update(this);
+        amountOfFoodEaten = amountOfFoodEaten + critter.getAmountOfFoodEaten();
       }
     }
     this.state.monster.update();
     const now = new Date().getTime();
     if (now > (this.state.lastTimeScoreUpdated + this.config.scoreUpdateInterval)) {
-      const numCritters = this.state.critters.length;
-      this.state.score+=numCritters;
+      // Score is the amount of food eaten by all critters, cumulatively
+      this.state.score+=amountOfFoodEaten;
       this.scoreText.text = this.state.score.toString();
       this.state.lastTimeScoreUpdated = now;
     }
