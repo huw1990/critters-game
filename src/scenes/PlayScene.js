@@ -29,6 +29,18 @@ class PlayScene extends BaseScene {
 
     //Create the top bar, showing the score, etc.
     const gapAroundMenuButton = sizeOfTopBar * 0.02;
+
+    const menuButtonSize = sizeOfTopBar - (gapAroundMenuButton * 2);
+    var menuButton = this.add.sprite(this.state.game.config.width - (menuButtonSize / 2) - (gapAroundMenuButton * 3), ((sizeOfTopBar / 2) + (gapBetweenWallAndEdge / 2)), 'scorebox');
+    menuButton.displayWidth = menuButtonSize;
+    menuButton.scaleY = menuButton.scaleX;
+    menuButton.setInteractive({useHandCursor: true});
+    menuButton.on("pointerdown", function(){
+      console.log("launching in game menu");
+      this.scene.pause();
+      this.scene.launch("PauseScene", this);
+    }, this);
+
     var scoreBox = this.add.sprite(this.state.game.config.width / 2, ((sizeOfTopBar / 2) + (gapBetweenWallAndEdge / 2)), 'scorebox');
     const scoreButtonSize = sizeOfTopBar - (gapAroundMenuButton * 2);
     scoreBox.displayHeight = scoreButtonSize;
@@ -164,6 +176,16 @@ class PlayScene extends BaseScene {
      food on the screen on mouse click. */
   isWithinWorldBounds(x, y) {
     return (x > this.state.worldBounds.startX && x < this.state.worldBounds.endX && y > this.state.worldBounds.startY && y < this.state.worldBounds.endY);
+  }
+
+  resumeGameFromMenu() {
+    this.scene.stop("PauseScene");
+    this.scene.resume("PlayScene");
+  }
+
+  startNewGameFromMenu() {
+    this.scene.stop("PauseScene");
+    this.scene.start("PlayScene");
   }
 
 }

@@ -4,6 +4,7 @@ import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
 
 import PlayScene from './scenes/PlayScene';
 import PreloadScene from './scenes/PreloadScene';
+import PauseScene from './scenes/PauseScene';
 
 /* An enum for the food smell speed - the number corresponds to how much of the width of the game the smell travels
 per second */
@@ -30,7 +31,7 @@ var gameState = {
   score: 0
 };
 
-const Scenes = [PreloadScene, PlayScene];
+const Scenes = [PreloadScene, PlayScene, PauseScene];
 const createScene = Scene => new Scene(gameOptions, gameState)
 const initScenes = () => Scenes.map(createScene)
 
@@ -38,6 +39,10 @@ const config = {
   type: Phaser.AUTO,
   ...gameOptions,
   pixelArt: true,
+  parent: 'phaser',
+	dom: {
+		createContainer: true
+	},
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
