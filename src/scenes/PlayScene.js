@@ -154,6 +154,7 @@ class PlayScene extends BaseScene {
       //No more critters remaining, so GAME OVER
       console.log("GAME OVER");
       this.scene.pause();
+      this.scene.launch("GameOverScene", this);
     }
     let amountOfFoodEaten = 0;
     for (var i = 0; i < this.state.critters.length; i++) {
@@ -187,6 +188,11 @@ class PlayScene extends BaseScene {
 
   startNewGameFromMenu() {
     this.scene.stop("PauseScene");
+    this.scene.start("PlayScene");
+  }
+
+  startNewGameAfterEnded() {
+    this.scene.stop("GameOverScene");
     this.scene.start("PlayScene");
   }
 
