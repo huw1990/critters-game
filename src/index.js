@@ -11,12 +11,13 @@ import GameOverScene from './scenes/GameOverScene';
 per second */
 var FoodSmellSpeed = Object.freeze({"SLOW":0.2, "MEDIUM":1, "FAST":10});
 var gameOptions = {
+  showCritterDebug: false,
   critters: 2,
   critterSpeed: 4,
   monsterSpeed: 2,
   foodEatSpeedDecrease: 0.95,
   foodEatSizeIncrease: 1.05,
-  critterSizePixels: 130,
+  critterSizePixels: 150,
   aspectRatio: 16/9,
   critterIdleAngleChangeTime: 500,
   objectTargetChangeInterval: 1000,
@@ -55,7 +56,7 @@ const config = {
   physics: {
       default: "matter",
       matter: {
-        debug: true
+        // debug: true
       }
   },
   plugins: {

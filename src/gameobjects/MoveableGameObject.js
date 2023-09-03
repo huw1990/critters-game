@@ -12,6 +12,11 @@ class MoveableGameObject extends Phaser.Physics.Matter.Sprite {
       this.yVelo = 0;
     }
   
+    update(scene) {
+      //Make sure the angle is always 0 - if objects collide they can change angle without us wanting
+      super.setAngle(0);
+    }
+
     getXVelo() {
       return this.xVelo;
     }
@@ -30,8 +35,9 @@ class MoveableGameObject extends Phaser.Physics.Matter.Sprite {
   
     //Move this object towards the provided oject, at the provided speed.
     moveToObj(spriteToMoveTo, speed) {
-      const angleToMoveTo = this.getAngle(this.x, this.y, spriteToMoveTo.x, spriteToMoveTo.y);
-      super.setAngle(angleToMoveTo);
+      // Sprite needs to be horizontal always, so don't change the angle
+      // const angleToMoveTo = this.getAngle(this.x, this.y, spriteToMoveTo.x, spriteToMoveTo.y);
+      // super.setAngle(angleToMoveTo);
       const vectorToMoveTo = this.getUnitVector(this.x, this.y, spriteToMoveTo.x, spriteToMoveTo.y);
       this.setXVelo((vectorToMoveTo.x * speed));
       this.setYVelo((vectorToMoveTo.y * speed));

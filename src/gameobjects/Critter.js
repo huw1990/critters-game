@@ -15,6 +15,10 @@ class Critter extends MoveableGameObject {
       this.monster = null;
       this.amountOfFoodEaten = 0;
       this.critterNumber = scene.add.text(x, y, this.amountOfFoodEaten, {font: `${this.gameState.game.config.width / 40}px Arial`, fill: "#ffffff"}).setOrigin(0.5);
+      if (!this.gameConfig.showCritterDebug) {
+        // Only show the amount of food eaten if dictated by config
+        this.critterNumber.setVisible(false);
+      }
     }
   
     eatenByMonster(scene, monster, physicsWorld) {
@@ -85,6 +89,7 @@ class Critter extends MoveableGameObject {
     }
   
     update(scene) {
+      super.update(scene);
       // Update the score text (which is a separate component) to always be above the critter
       this.critterNumber.x = this.x;
       this.critterNumber.y = this.y;
@@ -101,19 +106,20 @@ class Critter extends MoveableGameObject {
             //this.moveTowardsNewestFood();
             //this.moveTowardsOldestFood();
           }
-          // if (this.getXVelo() !== 0 || this.getYVelo() !== 0) {
-          //   this.anims.play('critter-moving', true);
-          // }
+          if (this.getXVelo() !== 0 || this.getYVelo() !== 0) {
+            this.anims.play('critter-moving', true);
+          }
         } else {
           this.setXVelo(0);
           this.setYVelo(0);
-          // this.anims.stop(null, true);
-          // this.setFrame(0);
-          if (now > (this.lastTimeSettingAngle + this.gameConfig.critterIdleAngleChangeTime)) {
-            var randomDegrees = Phaser.Math.Between(0, 360);
-            this.setAngle(randomDegrees);
-            this.lastTimeSettingAngle = now;
-          }
+          this.anims.stop(null, true);
+          this.setFrame(0);
+          // Critter sprite needs to be horizontal always, so don't change the angle
+          // if (now > (this.lastTimeSettingAngle + this.gameConfig.critterIdleAngleChangeTime)) {
+          //   var randomDegrees = Phaser.Math.Between(0, 360);
+          //   this.setAngle(randomDegrees);
+          //   this.lastTimeSettingAngle = now;
+          // }
         }
       }
       this.setVelocity(this.getXVelo(), this.getYVelo());
